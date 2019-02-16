@@ -1,5 +1,5 @@
 <?php
-Class Queue {
+class Stack {
 
     /**
      * @var array
@@ -17,13 +17,13 @@ Class Queue {
     }
 
     /**
-     * 配列の先頭からデータを取り出す
+     * 配列の末尾からデータを取り出す
      *
      * @return string
      */
     public function get(): string
     {
-        return array_shift($this->list);
+        return array_pop($this->list);
     }
 
     /**
