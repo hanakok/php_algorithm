@@ -25,9 +25,11 @@ class RingBuffer {
     public function add(string $item, int $index = null): void
     {
         if (is_null($index)) { // indexの指定がない場合は末尾に追加する
-
+            $this->end = $this->end + 1;
+            array_push($this->list, $item);
         } else { // indexの指定がある場合
-
+            $i = $this->start + $indexl;
+            array_splice($this->list, $i, 1, [$item]);
         }
     }
 
@@ -39,7 +41,8 @@ class RingBuffer {
      */
     public function get(int $index): string
     {
-
+        $i = $this->start + $index;
+        return array_slice($this->list, $index);
     }
 
     /**
