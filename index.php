@@ -30,3 +30,21 @@
     }
 
     echo '<br />';
+
+    //// リングバッファ
+    require_once 'ringBuffer.php';
+    // 配列にデータを追加します
+    $size = 3;
+    $buffer = new RingBuffer($size);
+    $buffer->add('にほへ');
+    $buffer->add('とちり');
+    $buffer->add('いろは', 0);
+    $buffer->add('ぬるを');
+
+    echo '======リングバッファ======<br />';
+    // データをインデックス順で取り出します
+    foreach ($buffer->getList() as $item) {
+        echo $buffer->get() . '<br />';
+    }
+
+    echo '<br />';

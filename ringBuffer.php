@@ -7,6 +7,13 @@ class RingBuffer {
     private $list = [];
 
     /**
+     * リングバッファの大きさ
+     *
+     * @var int
+     */
+    private $size;
+
+    /**
      * @var int
      */
     private $start = 0;
@@ -14,7 +21,12 @@ class RingBuffer {
     /**
      * @var int
      */
-    private $end = 0;
+    private $end = -1;
+
+    public function __construct(int $size)
+    {
+        $this->size = $size;
+    }
 
     /**
      * 配列にデータを追加する
@@ -25,24 +37,31 @@ class RingBuffer {
     public function add(string $item, int $index = null): void
     {
         if (is_null($index)) { // indexの指定がない場合は末尾に追加する
-            $this->end = $this->end + 1;
-            array_push($this->list, $item);
+            $this->end = ($this->end + 1) % $this->size;
+            $this->list[$this->end] =  $item;
+            if ($this->start >= $this->end) {
+                $this->start = $this->end + 1;
+            }
         } else { // indexの指定がある場合
-            $i = $this->start + $indexl;
-            array_splice($this->list, $i, 1, [$item]);
+            $i = ($this->start + $index) % $this->size;
+            $this->list[$i] =  $item;
         }
     }
 
     /**
      * 指定されたindexのデータを返す
      *
-     * @param  int    $index
+     * @param  int|null    $index
      * @return string
      */
-    public function get(int $index): string
+    public function get(int $index = null): string
     {
-        $i = $this->start + $index;
-        return array_slice($this->list, $index);
+        if (is_null($index)) {
+            return array_shift($this->list);
+        } else {
+            $i = ($this->start + $index) % $this->size;
+            return $this->list[$i];
+        }
     }
 
     /**
