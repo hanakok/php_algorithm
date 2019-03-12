@@ -48,3 +48,13 @@
     }
 
     echo '<br />';
+
+    //// バブルソート
+    require_once 'bubbleSort.php';
+    $array = [40,2,600,57,62,86,325,9568,15];
+    $bubbleSort = new BubbleSort();
+    $sorted = $bubbleSort->sort($array);
+    echo '======バブルソート======<br />';
+    foreach ($sorted as $num) {
+        echo $num . '<br />';
+    }
